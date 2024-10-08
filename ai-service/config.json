@@ -1,0 +1,18 @@
+{
+  "UserId": "964664416493",
+  "Bucket_Name": "filechatbot",
+  "max-output-token": 2000,
+  "chat-history-loaded-length": 10,
+  "bedrock-region": "us-east-1",
+  "load-doc-in-chat-history": true,
+  "csv-delimiter": "|",
+  "document-upload-cache-s3-path": "cache-folder",
+  "lambda-function": "",
+  "input_s3_path": "filechatbot",
+  "input_bucket": "filechatbot",
+  "input_file_ext": "csv,xlsx",
+  "postgres_host": "18.237.155.139",
+  "postgres_database": "geekleai",
+  "postgres_user": "yash",
+  "postgres_password": "123456a@"
+}
