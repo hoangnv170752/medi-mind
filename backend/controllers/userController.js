@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const ContactUs = require("../models/contactUs");
+const Communication = require("../models/communication");
 
 router.post("/add-contact-us", async (req, res) => {
   const { name, phone, email, message } = req.body;
@@ -94,5 +95,31 @@ router.post('/add-medications/:userEmail', async (req, res) => {
   }
 });
 
+router.post("/add-message-chatbot" , async (req , res) => {
+
+  const{email, message ,from, to} = req.body ;
+  
+  const newEntry = await new Communication({email, message ,from, to: "chatbot@gmail.com"});
+
+  try {
+    await newEntry.save();
+    res.status(200).json({message: "Successfully sent"});
+  } catch (error) {
+    res.json({message: "couldnt sent the message"});
+  }
+});
+
+router.get("/get-message/:email" , async (req , res) => {
+
+  const email = req.params.email;
+  console.log(email);
+  
+  try {
+    const message = await Communication.find({email: email});
+    res.json(message);
+  } catch (error) {
+    res.status(500).json({ error: "Could not get the message" }); 
+  }
+});
 
 module.exports = router;

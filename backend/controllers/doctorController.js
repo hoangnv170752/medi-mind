@@ -138,6 +138,21 @@ router.post("/add-message" , async (req , res) => {
     res.json("couldnt sent the message");
   }
 });
+
+router.post("/add-message-chatbot" , async (req , res) => {
+
+  const{email, message ,from} = req.body ;
+  
+  const newEntry = await new Communication({email: 'chatbot@gmail.com', message ,from});
+
+  try {
+    await newEntry.save();
+    res.status(200).json("Successfully sent");
+  } catch (error) {
+    res.json("couldnt sent the message");
+  }
+});
+
 router.get("/get-message/:email" , async (req , res) => {
 
   const email = req.params.email; // Correct way to access email from request parameters
@@ -150,5 +165,4 @@ router.get("/get-message/:email" , async (req , res) => {
   }
 });
 
-
-  module.exports = router;
+module.exports = router;
