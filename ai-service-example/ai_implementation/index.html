@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        async function sendMessage() {
+            const prompt = document.getElementById("userInput").value;
+            const patientData = document.getElementById("patientData").value;
+            const chatHistory = document.getElementById("chatHistory").value.split('\n');
+
+            const response = await fetch("umer.com/chat/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                    patient_data: patientData,
+                    chat_history: chatHistory
+                })
+            });
+
+            const data = await response.json();
+            document.getElementById("responseContainer").innerText = "Bot: " + data.response;
+            document.getElementById("userInput").value = ""; // Clear input
+        }
+    </script>
+</head>
+<body>
+    <h1>Patient Chatbot</h1>
+    <textarea id="patientData" placeholder="Enter patient data..."></textarea>
+    <textarea id="chatHistory" placeholder="Previous chat history..."></textarea>
+    <textarea id="userInput" placeholder="Type your message..."></textarea>
+    <button onclick="sendMessage()">Send</button>
+    <div id="responseContainer"></div>
+</body>
+</html>

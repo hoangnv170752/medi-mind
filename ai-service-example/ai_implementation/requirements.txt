@@ -1,0 +1,8 @@
+crewai
+fastapi 
+uvicorn
+langchain-community
+langchain
+openai
+pydantic
+requests
