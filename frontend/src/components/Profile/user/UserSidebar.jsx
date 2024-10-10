@@ -73,6 +73,13 @@ const UserSidebar =({ profiePic  ,userName}) =>{
         >
           Hospitalization
         </NavLink>
+        <NavLink
+          style={navLinkStyle}
+          className={"w-full p-2 h-[40px] "}
+          to="/user-message"
+        >
+          Message
+        </NavLink>
       </div>
     </div>
     <div className="w-full text-center  h-[80px] p-2">
