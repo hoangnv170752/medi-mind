@@ -43,7 +43,7 @@ class AimlApiLLM:
         raise Exception("Exceeded maximum retries due to rate limits.")
 
 if __name__ == "__main__":
-    api_key = "17409467bb144d79923b30337e3a5551"  # Replace with your actual API key
+    api_key = "1d525acd15344646a522ba71620f23df"  # Replace with your actual API key
     aiml_llm = AimlApiLLM(api_key=api_key)
     
     prompt = "What kind of model are you?"
