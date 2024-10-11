@@ -13,7 +13,7 @@ function UserMessage() {
   // Fetch existing messages when the component mounts
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`http://localhost:4451/user/get-message/${userData.email}`);
+      const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData.email}`);
       setMessages(response.data);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -38,7 +38,7 @@ function UserMessage() {
       ]);
 
       // Send user's message to the backend
-      await axios.post('http://localhost:4451/user/add-message-chatbot', {
+      await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
         email: userData.email,
         message: newMessage,
         from: userData.email,
@@ -46,7 +46,7 @@ function UserMessage() {
       });
 
       // Call the chatbot API
-      const botResponse = await axios.post('http://localhost:4451/chat', {
+      const botResponse = await axios.post('https://medi-mind-s2fr.onrender.com/chat', {
         prompt: newMessage,
         patient_data: newMessage,
         chat_history: messages,
@@ -59,7 +59,7 @@ function UserMessage() {
       ]);
 
       // Save chatbot's message to the backend
-      await axios.post('http://localhost:4451/user/add-message-chatbot', {
+      await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
         email: userData.email,
         message: botResponse.data.response,
         from: 'chatbot@gmail.com',
