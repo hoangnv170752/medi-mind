@@ -13,7 +13,12 @@ const communicationSchema = new Schema({
     from: {
         type: String,
         required: true
+    },
+    to: {
+        type: String,
     }
+}, {
+    timestamps: true,
 });
 
 const Communication = mongoose.model("Communication", communicationSchema, "communications");

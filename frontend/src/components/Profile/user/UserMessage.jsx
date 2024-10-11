@@ -8,40 +8,72 @@ function UserMessage() {
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(true); // Estado para la pantalla de carga
+  const [loading, setLoading] = useState(true);
+
+  // Fetch existing messages when the component mounts
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4451/user/get-message/${userData.email}`);
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response = await axios.get(`http://103.116.8.27:4451/user/get-messages/${userData.email}`);
-        setMessages(response.data);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-      } finally {
-        setLoading(false); // Una vez cargados los mensajes, desactivamos la pantalla de carga
-      }
-    };
-
     fetchMessages();
   }, [userData.email]);
 
+  // Handle sending a new message
   const sendMessage = async () => {
-    if (newMessage.trim() === '') return; // No enviar mensajes vacíos
+    if (newMessage.trim() === '') return; // Avoid sending empty messages
 
     try {
-      const response = await axios.post(`http://103.116.8.27:4451/user/send-message`, {
+      // Add user's message to the chat
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: userData.email, message: newMessage }
+      ]);
+
+      // Send user's message to the backend
+      await axios.post('http://localhost:4451/user/add-message-chatbot', {
         email: userData.email,
-        message: newMessage
+        message: newMessage,
+        from: userData.email,
+        to: 'chatbot@gmail.com',
       });
-      setMessages([...messages, response.data]); // Añade el nuevo mensaje al estado actual
-      setNewMessage(''); // Limpia el campo de texto
+
+      // Call the chatbot API
+      const botResponse = await axios.post('http://localhost:4451/chat', {
+        prompt: newMessage,
+        patient_data: newMessage,
+        chat_history: messages,
+      });
+
+      // Add chatbot's response to the chat
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: 'chatbot@gmail.com', message: botResponse.data.response }
+      ]);
+
+      // Save chatbot's message to the backend
+      await axios.post('http://localhost:4451/user/add-message-chatbot', {
+        email: userData.email,
+        message: botResponse.data.response,
+        from: 'chatbot@gmail.com',
+        to: userData.email,
+      });
+
+      // Clear the input field after sending
+      setNewMessage('');
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('Error sending message or fetching chatbot response:', error);
     }
   };
 
   if (loading) {
-    // Mostrar pantalla de carga mientras los datos se obtienen
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
@@ -56,11 +88,16 @@ function UserMessage() {
         <UserSidebar profiePic={profiePic} userName={userData.userName} />
         <div className="w-[70%] ms-24 p-4 flex flex-col justify-start gap-5">
           <p className="font-semibold text-3xl">Messages</p>
-          <div className="flex flex-col w-full h-[400px] bg-gray-200 p-4 rounded-lg overflow-auto shadow-md">
+          <div className="flex flex-col w-full h-[1000px] bg-gray-200 p-4 rounded-lg overflow-auto shadow-md">
             {messages.length > 0 ? (
               messages.map((msg, index) => (
-                <div key={index} className={`p-2 mb-2 rounded-lg ${msg.sender === userData.email ? 'bg-blue-300 self-end' : 'bg-gray-300 self-start'}`}>
-                  <p><strong>{msg.sender === userData.email ? 'You' : msg.sender}</strong>: {msg.message}</p>
+                <div
+                  key={index}
+                  className={`p-2 mb-2 rounded-lg ${msg.to !== userData.email ? 'bg-blue-300 self-end' : 'bg-gray-300 self-start'}`}
+                >
+                  <p>
+                    <strong>{msg.sender === userData.email ? 'Chatbot' : 'You'}</strong>: {msg.message}
+                  </p>
                 </div>
               ))
             ) : (

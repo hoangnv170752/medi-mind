@@ -2,7 +2,7 @@ const express = require('express');
 const AimlApiLLM = require('./aimlApiLLM');
 
 const router = express.Router();
-const API_KEY = '17409467bb144d79923b30337e3a5551';
+const API_KEY = '1d525acd15344646a522ba71620f23df';
 const aiml_llm = new AimlApiLLM(API_KEY);
 
 router.post('/', async (req, res) => {

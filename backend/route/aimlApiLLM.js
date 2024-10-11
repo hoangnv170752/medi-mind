@@ -2,7 +2,7 @@ const axios = require('axios');
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 class AimlApiLLM {
-  constructor(apiKey, modelName = 'o1-preview') {
+  constructor(apiKey, modelName = 'o1-mini') {
     this.apiKey = apiKey;
     this.modelName = modelName;
   }
@@ -12,12 +12,11 @@ class AimlApiLLM {
     const retries = 5;
 
     // Context setting for chatbot's role and capabilities
-    const context = `
-      You are a doctor assistant chatbot with the ability to gather information from medical histories, 
-      and internet resources. Use this knowledge to assist medical employees and patients.`;
+    const systemPrompt = `
+      You are a doctor assistant chatbot.`;
 
     // Combine previous prompt and the new one
-    const combinedPrompt = `${context}\nPrevious Prompt: ${previousPrompt}\nUser Prompt: ${prompt}`;
+    const combinedPrompt = `Previous Prompt: ${previousPrompt}\nUser Prompt: ${prompt}`;
 
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
@@ -25,8 +24,13 @@ class AimlApiLLM {
           url,
           {
             model: this.modelName,
-            messages: [{ role: 'user', content: combinedPrompt }],
-            max_tokens: 512,
+            messages: [
+                {
+                  role: "user",
+                  content: combinedPrompt,
+                },
+            ],
+            max_tokens: 256,
             stream: false,
           },
           {
@@ -36,6 +40,8 @@ class AimlApiLLM {
             },
           }
         );
+        console.log(40);
+        console.log(response.data.choices[0].message);
         return response.data.choices[0].message.content;
       } catch (error) {
         console.error(error);
