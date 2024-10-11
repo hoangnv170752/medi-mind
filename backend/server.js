@@ -10,6 +10,7 @@ const nurseController = require("./controllers/nurseController");
 const appointmentController = require("./controllers/appointmentController");
 const adminController = require("./controllers/adminController");
 const limiter = require("./middlewares/rateLimiter");
+const chatRoutes = require("./route/chatRoutes");
 const router = express.Router();
 const app = express();
 
@@ -23,6 +24,8 @@ app.use("/doctor",limiter, doctorController);
 app.use("/nurse",limiter, nurseController);
 app.use("/appointment",limiter, appointmentController);
 app.use("/admin",limiter, adminController);
+app.use('/chat',limiter, chatRoutes);
+
 app.use(errorHandlerMiddleware);
 
 (async () => {
