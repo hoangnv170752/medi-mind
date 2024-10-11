@@ -21,7 +21,7 @@ class ChatResponse(BaseModel):
     response: str
 
 # Replace with your actual API key
-API_KEY = "17409467bb144d79923b30337e3a5551"
+API_KEY = "1d525acd15344646a522ba71620f23df"
 aiml_llm = AimlApiLLM(api_key=API_KEY)
 
 @app.post("/chat/", response_model=ChatResponse)
