@@ -21,7 +21,7 @@ function SignUp() {
       const handleSubmit = async (e) => {
         e.preventDefault();
         axios
-          .post("http://103.116.8.27:4451/auth/register", data)
+          .post("https://medi-mind-s2fr.onrender.com/auth/register", data)
           .then((res) => {
             if (res.data.message === "Success") {
               navigate("/sign-in");

@@ -12,7 +12,7 @@ function AdminNewsletter() {
   const fetchSentMessages = async () => {
     try {
       await axios.get(
-        "http://103.116.8.27:4451/admin/get-sent-newsletter"
+        "https://medi-mind-s2fr.onrender.com/admin/get-sent-newsletter"
       )
       .then((res) =>{
         setSubscribers(res.data);

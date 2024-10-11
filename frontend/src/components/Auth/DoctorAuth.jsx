@@ -37,7 +37,7 @@ function DoctorAuth() {
     e.preventDefault();
     dispatch(loginProgress());
     axios.
-    post("http://103.116.8.27:4451/auth/login", data)
+    post("https://medi-mind-s2fr.onrender.com/auth/login", data)
     .then((res)=>{
       if(res.data.role === "doctor"){
         const user = res.data.user;

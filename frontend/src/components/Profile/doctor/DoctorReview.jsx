@@ -27,7 +27,7 @@ function DoctorReview() {
     const getNurses = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://103.116.8.27:4451/nurse/get-allNurses');
+        const response = await axios.get('https://medi-mind-s2fr.onrender.com/nurse/get-allNurses');
         setNurses(response.data);
       } catch (error) {
         Swal.fire({
@@ -61,7 +61,7 @@ function DoctorReview() {
       };
 
       
-      await axios.post('http://103.116.8.27:4451/doctor/add-message', {
+      await axios.post('https://medi-mind-s2fr.onrender.com/doctor/add-message', {
         email,
         message,
         from,

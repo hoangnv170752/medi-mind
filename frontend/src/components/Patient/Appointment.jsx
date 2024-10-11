@@ -28,7 +28,7 @@ function Appointment() {
 
   useEffect(() => {
     const fetchDoctors = async (e) => {
-      const res = await axios.get("http://103.116.8.27:4451/doctor/get-doctors");
+      const res = await axios.get("https://medi-mind-s2fr.onrender.com/doctor/get-doctors");
       setDoctors(res.data);
     };
 
@@ -39,7 +39,7 @@ function Appointment() {
     e.preventDefault();
 
     await axios
-      .post(`http://103.116.8.27:4451/appointment/add-appointment`, {
+      .post(`https://medi-mind-s2fr.onrender.com/appointment/add-appointment`, {
         patient: appointment.patient,
         phone: appointment.phone,
         doctor: appointment.doctor,

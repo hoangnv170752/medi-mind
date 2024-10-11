@@ -23,7 +23,7 @@ function NurseBed() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get(`http://103.116.8.27:4451/doctor/get-message/${currentUser.email}`)
+        await axios.get(`https://medi-mind-s2fr.onrender.com/doctor/get-message/${currentUser.email}`)
         .then((res) =>{
           setMessage(res.data);
 

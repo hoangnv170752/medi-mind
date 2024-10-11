@@ -15,7 +15,7 @@ function DoctorAppointmen() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://103.116.8.27:4451/appointment/get-appointment/${currentUser._id}`
+          `https://medi-mind-s2fr.onrender.com/appointment/get-appointment/${currentUser._id}`
         );
         setAppointments(response.data);
       } catch (error) {

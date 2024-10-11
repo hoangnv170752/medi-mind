@@ -38,7 +38,7 @@ function DoctorProfile() {
     e.preventDefault();
     try {
       axios
-        .put("http://103.116.8.27:4451/doctor/profile-update", {
+        .put("https://medi-mind-s2fr.onrender.com/doctor/profile-update", {
           userId: userData._id,
           updatedProfile: {
             email: email,

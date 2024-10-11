@@ -14,7 +14,7 @@ function UserMedication() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`http://103.116.8.27:4451/user/get-medications/${userData.email}`);
+          const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-medications/${userData.email}`);
            
           const data = response.data;
           const medicationsArray = data.map(({ medications }) => medications);

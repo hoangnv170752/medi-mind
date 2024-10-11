@@ -31,7 +31,7 @@ function Home() {
     const [email , setEmail] = useState("");
     const handleNewsletter = async(e) =>{
         e.preventDefault(); 
-        await axios.post("http://103.116.8.27:4451/admin/new-letter", {email})
+        await axios.post("https://medi-mind-s2fr.onrender.com/admin/new-letter", {email})
         .then(() =>{
             Swal.fire({
                 title: "Success",

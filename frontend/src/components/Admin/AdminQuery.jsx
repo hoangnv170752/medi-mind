@@ -12,7 +12,7 @@ function AdminQuery() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://103.116.8.27:4451/admin/get-contacts"
+          "https://medi-mind-s2fr.onrender.com/admin/get-contacts"
         );
         setContacts(response.data);
       } catch (error) {

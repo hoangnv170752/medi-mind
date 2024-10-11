@@ -32,7 +32,7 @@ function UserAppointment() {
     const email = user.email;
     const fetchAppointments = async (email) => {
       await axios
-        .get(`http://103.116.8.27:4451/appointment/get-appointments/${email}`)
+        .get(`https://medi-mind-s2fr.onrender.com/appointment/get-appointments/${email}`)
         .then((res) => {
           setAppointments(res.data);
         })

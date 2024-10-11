@@ -18,7 +18,7 @@ function AdminNurse() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://103.116.8.27:4451/admin/get-department"
+          "https://medi-mind-s2fr.onrender.com/admin/get-department"
         );
         setDepartments(response.data);
       } catch (error) {
@@ -36,7 +36,7 @@ function AdminNurse() {
   useEffect(() => {
     const getNurses = async () => {
       const data = await axios
-        .get("http://103.116.8.27:4451/nurse/get-nurses")
+        .get("https://medi-mind-s2fr.onrender.com/nurse/get-nurses")
         .then((response) => {
           setNurses(response.data);
         })
@@ -55,7 +55,7 @@ function AdminNurse() {
   const handleAddNurse = async (e) => {
     e.preventDefault();
      await axios
-      .post("http://103.116.8.27:4451/nurse/add-nurse", {
+      .post("https://medi-mind-s2fr.onrender.com/nurse/add-nurse", {
         name: nurname,
         email: nuremail,
         department: nurdept,
