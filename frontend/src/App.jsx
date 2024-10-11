@@ -30,6 +30,7 @@ import PrivateRoute from "./components/Routes/PrivateRoute.jsx";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AdminNewsletter from "./components/Admin/AdminNewsletter";
+import UserMessage from "./components/Profile/user/UserMessage.jsx";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
                 element={<UserBookAppointment />}
               />
               <Route path="/user-medication" element={<UserMedication />} />
+              <Route path="/user-message" element={<UserMessage />} />
 
               <Route path="/admin-dashboard" element={<AdminDashPage />} />
               <Route path="/admin-doctor" element={<AdminDoctor />} />

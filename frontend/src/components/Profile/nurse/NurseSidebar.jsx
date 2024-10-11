@@ -54,7 +54,7 @@ const NurseSidebar = ({ profilePic, userName }) => {
               <NavLink
                 style={navLinkStyle}
                 className={"w-full p-2 h-[40px] "}
-                to="/nurse-bed"
+                to="/nurse-Message"
               >
                 Messages
               </NavLink>
