@@ -11,7 +11,7 @@
             const patientData = document.getElementById("patientData").value;
             const chatHistory = document.getElementById("chatHistory").value.split('\n');
 
-            const response = await fetch("umer.com/chat/", {
+            const response = await fetch("http://127.0.0.1:8000/chat/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
