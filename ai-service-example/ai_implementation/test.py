@@ -17,7 +17,7 @@ def test_chat():
 
     # Print the response
     print("Response Status Code:", response.status_code)
-    print("Response JSON:", response.json()['response'])
+    print("Response JSON:", response.json())
 
 if __name__ == "__main__":
     # Optionally wait for the server to start
