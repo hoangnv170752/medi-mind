@@ -1,24 +1,73 @@
-## How to run the application
+# Application Setup Guide
 
-1. Run the frontend application
+## Project Structure
+```
+medi-mind/
+├── ai-service-example/
+│   ├── AimlApiLLM.py
+│   ├── index.html
+│   ├── main.py      # Entry point for the chat API
+│   ├── requirements.txt
+│   ├── styles.css
+│   └── test.py
+└── ...
+```
 
-- Install the node_modules package
+## 1. Run the Frontend Application
 
-yarn install or npm install
+### Install Dependencies
+Navigate to the frontend directory and install the required packages:
 
-- Run in the frontend folder
+```bash
+# Using Yarn
+yarn install
 
-yarn run dev or npm run dev
+# Or using NPM
+npm install
+```
 
-- Press login and register an account (the account will be in patient role)
+### Start the Frontend
+Run the application with one of the following commands:
 
-2. Run the AI service (example for what we have on the ai service backend)
+```bash
+# Using Yarn
+yarn run dev
 
-- Install the pip package
+# Or using NPM
+npm run dev
+```
 
+### Create an Account
+- Press the **Login** button and register a new account.
+- Ensure the account has a **patient** role.
+
+---
+
+## 2. Run the AI Service
+
+### Directory Overview
+The AI service is located in the `ai-service-example` directory and contains the following files:
+- **AimlApiLLM.py**: Contains the AIML API logic.
+- **index.html**: Frontend interface for the chat.
+- **main.py**: Entry point for the chat API.
+- **requirements.txt**: Dependencies for the AI service.
+- **styles.css**: Styles for the frontend interface.
+- **test.py**: Additional tests or functionalities.
+
+### Install Dependencies
+Ensure you have Python and pip installed. Then navigate to the `ai-service-example` directory and install the required packages:
+
+```bash
 pip install -r requirements.txt
+```
 
-- Run the ai service 
+### Start the AI Service
+Run the service using the following command:
 
-streamlit run bedrock-chat.py 
+```bash
+python main.py
+```
 
+---
+
+Follow these steps to successfully set up and run both the frontend application and the AI service! If you encounter any issues, check the console for error messages for troubleshooting.
