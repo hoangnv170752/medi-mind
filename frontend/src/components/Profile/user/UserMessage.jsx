@@ -91,14 +91,19 @@ function UserMessage() {
           <div className="flex flex-col w-full h-[1000px] bg-gray-200 p-4 rounded-lg overflow-auto shadow-md">
             {messages.length > 0 ? (
               messages.map((msg, index) => (
-                <div
-                  key={index}
-                  className={`p-2 mb-2 rounded-lg ${msg.to !== userData.email ? 'bg-blue-300 self-end' : 'bg-gray-300 self-start'}`}
-                >
-                  <p>
-                    <strong>{msg.sender === userData.email ? 'Chatbot' : 'You'}</strong>: {msg.message}
-                  </p>
-                </div>
+            <div
+              key={index}
+              className={`p-2 mb-2 rounded-lg ${msg.from === userData.email ? 'bg-blue-300 self-end' : 'bg-gray-300 self-start'}`}
+            >
+              <p>
+                <strong>{msg.from === userData.email ? userData.email : 'Chatbot'}</strong>:
+                {msg.message.includes('\n') ? (
+                  <span dangerouslySetInnerHTML={{ __html: msg.message.replace(/\n/g, '<br/>') }} />
+                ) : (
+                  msg.message
+                )}
+              </p>
+            </div>
               ))
             ) : (
               <p>No messages yet.</p>
