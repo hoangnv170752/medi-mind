@@ -9,12 +9,27 @@ function UserMessage() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [userList, setUserList] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-users`);
+      setUserList(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Fetch existing messages when the component mounts
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData.email}`);
+      const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData?.email}`);
       setMessages(response.data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching messages:', error);
     } finally {
@@ -24,7 +39,8 @@ function UserMessage() {
 
   useEffect(() => {
     fetchMessages();
-  }, [userData.email]);
+    fetchUsers();
+  }, [userData?.email]);
 
   // Handle sending a new message
   const sendMessage = async () => {
@@ -73,14 +89,14 @@ function UserMessage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
-        <p className="ml-4 text-xl">Loading messages...</p>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <div className="loader border-t-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+  //       <p className="ml-4 text-xl">Loading messages...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <section className='bg-slate-300 flex justify-center items-center'>
@@ -88,6 +104,20 @@ function UserMessage() {
         <UserSidebar profiePic={profiePic} userName={userData.userName} />
         <div className="w-[70%] ms-24 p-4 flex flex-col justify-start gap-5">
           <p className="font-semibold text-3xl">Messages</p>
+          <p>Select a User to chat:</p>
+          <select
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(e.target.value)}
+            className="flex h-10 w-[100%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <option value="chatbot">Chatbot</option>
+            <option value="" disabled>Select a user</option>
+            {userList.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.userName}
+              </option>
+            ))}
+          </select>
           <div className="flex flex-col w-full h-[1000px] bg-gray-200 p-4 rounded-lg overflow-auto shadow-md">
             {messages.length > 0 ? (
               messages.map((msg, index) => (

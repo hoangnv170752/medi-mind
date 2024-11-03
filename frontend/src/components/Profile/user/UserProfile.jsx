@@ -132,16 +132,19 @@ function UserProfile() {
             </div>
 
             <div className="w-full flex justify-between">
-              <div className="flex flex-col w-[50%] justify-start">
-                <p>Enter Your Gender:</p>
-                <input
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="flex h-10 w-[90%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                  type="text"
-                  placeholder="Male/Female/Others"
-                ></input>
-              </div>
+            <div className="flex flex-col w-[50%] justify-start">
+              <p>Enter Your Gender:</p>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                className="flex h-10 w-[90%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="" disabled>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
               <div className="flex flex-col w-[50%] justify-start">
                 <p>Enter Your City:</p>
                 <input
