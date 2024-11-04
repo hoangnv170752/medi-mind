@@ -119,10 +119,14 @@ router.get("/get-message/:email" , async (req , res) => {
     console.log(message.length);
 
     if (emailSent) {
-      message.filter((res) => res.from !== emailSent || res.to === emailSent);
-      console.log(message.length);
+      const filteredMessages = message.filter((res) => 
+        res.from === emailSent || res.to === emailSent
+      );      
+      console.log(filteredMessages.length);
+      res.json(filteredMessages);
+    } else {
+      res.json(message);
     }
-    res.json(message);
   } catch (error) {
     res.status(500).json({ error: "Could not get the message" }); 
   }
