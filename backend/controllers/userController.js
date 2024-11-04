@@ -111,10 +111,17 @@ router.post("/add-message-chatbot" , async (req , res) => {
 router.get("/get-message/:email" , async (req , res) => {
 
   const email = req.params.email;
+  const emailSent = req.query.receiver;
   console.log(email);
 
   try {
     const message = await Communication.find({email: email});
+    console.log(message.length);
+
+    if (emailSent) {
+      message.filter((res) => res.from !== emailSent || res.to === emailSent);
+      console.log(message.length);
+    }
     res.json(message);
   } catch (error) {
     res.status(500).json({ error: "Could not get the message" }); 
