@@ -10,12 +10,12 @@ function UserMessage() {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [userList, setUserList] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState({userName: 'AI Chatbot', email: 'chatbot@gmail.com'});
 
   const fetchUsers = async () => {
     try {
       const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-users`);
-      setUserList(response.data);
+      setUserList(response.data.filter((user) => user.email !== userData.email));
       setLoading(false);
     } catch (error) {
       console.error('Error fetching messages:', error);
@@ -25,11 +25,20 @@ function UserMessage() {
   }
 
   // Fetch existing messages when the component mounts
-  const fetchMessages = async () => {
+  const fetchMessages = async (receiver) => {
     try {
-      const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData?.email}`);
-      setMessages(response.data);
-      setLoading(false);
+      console.log('Fetching messages' + receiver);
+      if (receiver) {
+        console.log('=======>');
+        const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData?.email}?receiver=${receiver}`);
+        console.log(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData?.email}?receiver=${receiver}`);
+        setMessages(response.data);
+        setLoading(false);
+      } else {
+        const response = await axios.get(`https://medi-mind-s2fr.onrender.com/user/get-message/${userData?.email}`);
+        setMessages(response.data);
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     } finally {
@@ -54,12 +63,14 @@ function UserMessage() {
       ]);
 
       // Send user's message to the backend
-      await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
-        email: userData.email,
-        message: newMessage,
-        from: userData.email,
-        to: 'chatbot@gmail.com',
-      });
+      if (selectedUserId.email === 'chatbot@gmail.com') {
+        await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
+          email: userData.email,
+          message: newMessage,
+          from: userData.email,
+          to: 'chatbot@gmail.com',
+        });
+      }
 
       // Call the chatbot API
       const botResponse = await axios.post('https://medi-mind-s2fr.onrender.com/chat', {
@@ -71,16 +82,22 @@ function UserMessage() {
       // Add chatbot's response to the chat
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: 'chatbot@gmail.com', message: botResponse.data.response }
+        { sender: selectedUserId.email, message: botResponse.data.response }
       ]);
 
       // Save chatbot's message to the backend
-      await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
-        email: userData.email,
-        message: botResponse.data.response,
-        from: 'chatbot@gmail.com',
-        to: userData.email,
-      });
+      if (selectedUserId.email === 'chatbot@gmail.com') {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { sender: 'chatbot@gmail.com', message: botResponse.data.response }
+        ]);
+        await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
+          email: userData.email,
+          message: botResponse.data.response,
+          from: 'chatbot@gmail.com',
+          to: userData.email,
+        });
+      }
 
       // Clear the input field after sending
       setNewMessage('');
@@ -88,6 +105,20 @@ function UserMessage() {
       console.error('Error sending message or fetching chatbot response:', error);
     }
   };
+
+  const handleSelectUser = (e) => {
+    console.log('Testing' + e);
+    console.log('Selecting user ' + selectedUserId);
+    console.log(userList.filter(user => user._id === e));
+    // setSelectedUserId(e);
+    if (e === 'chatbot') {
+      fetchMessages();
+      setSelectedUserId(e);
+    } else {
+      fetchMessages(userList.filter(user => user._id === e)[0].email);
+      setSelectedUserId(e);
+    }
+  }
 
   // if (loading) {
   //   return (
@@ -107,7 +138,7 @@ function UserMessage() {
           <p>Select a User to chat:</p>
           <select
             value={selectedUserId}
-            onChange={(e) => setSelectedUserId(e.target.value)}
+            onChange={(e) => handleSelectUser(e.target.value)}
             className="flex h-10 w-[100%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="chatbot">Chatbot</option>
