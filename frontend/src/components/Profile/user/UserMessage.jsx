@@ -54,7 +54,7 @@ function UserMessage() {
   // Handle sending a new message
   const sendMessage = async () => {
     if (newMessage.trim() === '') return; // Avoid sending empty messages
-
+    console.log(selectedUserId, newMessage);
     try {
       // Add user's message to the chat
       setMessages((prevMessages) => [
@@ -63,30 +63,27 @@ function UserMessage() {
       ]);
 
       // Send user's message to the backend
-      if (selectedUserId.email === 'chatbot@gmail.com') {
+      await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
+        email: userData.email,
+        message: newMessage,
+        from: userData.email,
+        to: userList.filter(user => user._id === selectedUserId)[0]?.email,
+      });
+      
+
+      // Call the chatbot API
+      if (selectedUserId === 'chatbot') {
         await axios.post('https://medi-mind-s2fr.onrender.com/user/add-message-chatbot', {
           email: userData.email,
           message: newMessage,
           from: userData.email,
           to: 'chatbot@gmail.com',
         });
-      }
-
-      // Call the chatbot API
-      const botResponse = await axios.post('https://medi-mind-s2fr.onrender.com/chat', {
-        prompt: newMessage,
-        patient_data: newMessage,
-        chat_history: messages,
-      });
-
-      // Add chatbot's response to the chat
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: selectedUserId.email, message: botResponse.data.response }
-      ]);
-
-      // Save chatbot's message to the backend
-      if (selectedUserId.email === 'chatbot@gmail.com') {
+        const botResponse = await axios.post('https://medi-mind-s2fr.onrender.com/chat', {
+          prompt: newMessage,
+          patient_data: newMessage,
+          chat_history: messages,
+        });
         setMessages((prevMessages) => [
           ...prevMessages,
           { sender: 'chatbot@gmail.com', message: botResponse.data.response }
@@ -98,6 +95,20 @@ function UserMessage() {
           to: userData.email,
         });
       }
+
+
+      // Add chatbot's response to the chat
+
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   { sender: 'chatbot@gmail.com', message: botResponse.data.response }
+      // ]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: userData.email, message: newMessage }
+      ]);
+
+      
 
       // Clear the input field after sending
       setNewMessage('');
@@ -116,7 +127,7 @@ function UserMessage() {
       setSelectedUserId(e);
     } else {
       fetchMessages(userList.filter(user => user._id === e)[0].email);
-      setSelectedUserId(e);
+      setSelectedUserId(userList.filter(user => user._id === e)[0]?._id);
     }
   }
 
@@ -142,7 +153,7 @@ function UserMessage() {
             className="flex h-10 w-[100%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="chatbot">Chatbot</option>
-            <option value="" disabled>Select a user</option>
+            {/* <option value="" disabled>Select a user</option> */}
             {userList.map((user) => (
               <option key={user._id} value={user._id}>
                 {user.userName}
