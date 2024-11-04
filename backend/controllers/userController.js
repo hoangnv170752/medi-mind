@@ -98,7 +98,7 @@ router.post("/add-message-chatbot" , async (req , res) => {
 
   const{email, message ,from, to} = req.body ;
 
-  const newEntry = await new Communication({email, message ,from, to: "chatbot@gmail.com"});
+  const newEntry = await new Communication({email, message ,from, to});
 
   try {
     await newEntry.save();
