@@ -152,7 +152,9 @@ function UserMessage() {
             onChange={(e) => handleSelectUser(e.target.value)}
             className="flex h-10 w-[100%] rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="chatbot">Chatbot</option>
+            <option value="chatbot">Chatbot O1</option>
+            <option value="chatbot-support">Chatbot OpenAI</option>
+            <option value="chatbot-support">Chatbot Llama</option>
             {/* <option value="" disabled>Select a user</option> */}
             {userList.map((user) => (
               <option key={user._id} value={user._id}>

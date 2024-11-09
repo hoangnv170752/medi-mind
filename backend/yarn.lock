@@ -772,6 +772,11 @@ kareem@2.6.3:
   resolved "https://registry.npmjs.org/kareem/-/kareem-2.6.3.tgz"
   integrity sha512-C3iHfuGUXK2u8/ipq9LfjFfXFxAZMQJJq7vLS45r3D9Y2xQ/m4S8zaR4zMLFWh9AsNPXmcFfUDhTEO8UIC/V6Q==
 
+llamaai@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/llamaai/-/llamaai-1.0.4.tgz"
+  integrity sha512-Y54Yn1EkLIVKn2kCUbU9kqGX/vhBh0Swan2tu4os8xuy88axOr3h6UKJiI0H2kfY3P/DVVmKuNTdmzLoW90CJA==
+
 lodash.includes@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npmjs.org/lodash.includes/-/lodash.includes-4.3.0.tgz"

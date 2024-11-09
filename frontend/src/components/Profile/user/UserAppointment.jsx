@@ -26,26 +26,47 @@ function UserAppointment() {
   
   };
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    setuserData(user);
-    const email = user.email;
-    const fetchAppointments = async (email) => {
-      await axios
-        .get(`https://medi-mind-s2fr.onrender.com/appointment/get-appointments/${email}`)
-        .then((res) => {
-          setAppointments(res.data);
-        })
-        .catch((err) => {
-          Swal.fire({
-            title: "Error",
-            icon: "error",
-            confirmButtonText: "Ok",
-            text: "Error Fetching Appointments! Please Try Again!",
-          });
-        });
-    };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const email = user?.email;
 
+
+  const fetchAppointments = async (email) => {
+    await axios
+      .get(`https://medi-mind-s2fr.onrender.com/appointment/get-appointments/${email}`)
+      .then((res) => {
+        setAppointments(res.data);
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: "Error",
+          icon: "error",
+          confirmButtonText: "Ok",
+          text: "Error Fetching Appointments! Please Try Again!",
+        });
+      });
+  };
+
+  const deleteAppointments = (appointmentId) => {
+    let config = {
+      method: 'delete',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:4451/appointment/delete-appointment/' + appointmentId,
+      headers: { }
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      fetchAppointments(email)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+  }
+
+  useEffect(() => {
+    setuserData(user);    
     fetchAppointments(email);
 
   }, []);
@@ -79,6 +100,7 @@ function UserAppointment() {
                     <div className="flex justify-between">
                       <p className="text-lg ">Reason : {appointment.reason}</p>
                       <p className="text-lg font-medium">Status of Appointment:<p className={`${colorForStatus(appointment.status)}`}>{appointment.status}</p></p>
+                      <button className="btn btn-danger" onClick={() => deleteAppointments(appointment?._id)}>Cancel</button>
                     </div>
                   </div>
                 );

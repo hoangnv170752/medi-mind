@@ -78,7 +78,7 @@ const UserSidebar =({ profiePic  ,userName}) =>{
     <div className="w-full text-center  h-[80px] p-2">
       <button
         onClick={handleSignOut}
-        className="bg-black text-white rounded-full text-md font-medium p-2 cursor-pointer hover:scale-110 duration-200 active:scale-90 "
+        className="bg-blue-800 text-white rounded-full text-md font-medium p-2 cursor-pointer hover:scale-110 duration-200 active:scale-90 "
       >
         Sign Out
       </button>

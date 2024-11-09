@@ -16,7 +16,7 @@ class AimlApiLLM {
       You are a doctor assistant chatbot.`;
 
     // Combine previous prompt and the new one
-    const combinedPrompt = `Previous Prompt: ${previousPrompt}\nUser Prompt: ${prompt}`;
+    const combinedPrompt = `Previous Prompt: ${systemPrompt}\nUser Prompt: ${prompt}`;
 
     for (let attempt = 0; attempt < retries; attempt++) {
       try {

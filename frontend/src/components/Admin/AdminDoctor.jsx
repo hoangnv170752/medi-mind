@@ -217,9 +217,9 @@ function AdminDoctor() {
 
               <button
                 onClick={handleGoBack}
-                className="bg-black text-white rounded-full text-md font-medium p-2 cursor-pointer hover:scale-105 duration-200 active:scale-90"
+                className="bg-white text-black rounded-full text-md font-medium p-2 cursor-pointer hover:scale-105 duration-200 active:scale-90"
               >
-                {"<- Go back"}
+                {"Cancel and go back"}
               </button>
             </form>
           </div>
