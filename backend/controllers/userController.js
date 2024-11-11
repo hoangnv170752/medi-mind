@@ -70,6 +70,31 @@ router.get("/get-medications/:userEmail", async (req, res) => {
   }
 });
 
+
+router.get("/get-all-medications", async (req, res) => {
+  try {
+    const users = await User.find({}, "userName email medicalHistory");
+
+    const medicationsWithPatients = [];
+    users.forEach(user => {
+      user.medicalHistory.forEach(history => {
+        history.medications.forEach(medication => {
+          medicationsWithPatients.push({
+            patientName: user.userName,
+            patientEmail: user.email,
+            medication: medication,
+          });
+        });
+      });
+    });
+
+    res.status(200).json(medicationsWithPatients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
 router.post('/add-medications/:userEmail', async (req, res) => {
   try {
     const { userEmail } = req.params;

@@ -50,13 +50,19 @@ function UserAppointment() {
     let config = {
       method: 'delete',
       maxBodyLength: Infinity,
-      url: 'http://localhost:4451/appointment/delete-appointment/' + appointmentId,
+      url: 'https://medi-mind-s2fr.onrender.com/appointment/delete-appointment/' + appointmentId,
       headers: { }
     };
     
     axios.request(config)
     .then((response) => {
       console.log(JSON.stringify(response.data));
+      Swal.fire({
+        title: "Delete appointment successfully",
+        icon: "success",
+        confirmButtonText: "Ok",
+        text: "Appointment Request Sent Successfully! We will get back to you soon!",
+      });
       fetchAppointments(email)
     })
     .catch((error) => {
