@@ -50,7 +50,7 @@ class AimlApiLLM {
 
     const combinedPrompt = `Previous Prompt: ${systemPrompt}\nUser Prompt: ${prompt}`;
 
-    const ragcySuggestion = await this.getRagcySuggestion(prompt, 'your_corpus_id_here');
+    // const ragcySuggestion = await this.getRagcySuggestion(prompt, 'your_corpus_id_here');
 
     const diseaseMedicineData = await this.readCSVData('./data/disease_medicine.csv');
     const diseaseSymptomsData = await this.readCSVData('./data/disease_symptoms.csv');
@@ -88,7 +88,7 @@ class AimlApiLLM {
         if (response.data.choices && response.data.choices[0].message) {
           return {
             responseChatbot: response.data.choices[0].message.content,
-            suggestRagcy: ragcySuggestion
+            suggestRagcy: 'Would you like to ask Ragcy for a suggestion?',
           };
         } else {
           throw new Error('Invalid response structure');
